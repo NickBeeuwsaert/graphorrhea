@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "graphorrhea"
+version = "0.1.0"
+description = ""
+authors = ["Nick Beeuwsaert"]
+packages = [
+    { include = "frontmatter", from = "src" },
+    { include = "graphorrhea", from = "src" }
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+acidfs = "^1.0"
+PyYAML = "^5.4.1"
+pyramid = "^2.0"
+waitress = "^1.4.4"
+pyramid-openapi3 = "^0.11"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^20.8b1"
+mypy = "^0.812"
+pytest-cov = "^2.11.1"
+pydocstyle = "^5.1.1"
+flake8 = "^3.8.4"
+pyramid-debugtoolbar = "^4.9"
+pyramid-jinja2 = "^2.8"
+
+[tool.poetry.plugins."paste.app_factory"]
+"main" = "graphorrhea:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
