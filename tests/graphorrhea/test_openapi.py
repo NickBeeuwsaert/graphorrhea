@@ -12,7 +12,14 @@ class TestDirectoryEndpoint:
     # bunk data is nice so meh
 
     @pytest.mark.parametrize(
-        "path", ["test", "/.", "/.invalid", "/..", "/test/.invalid"]
+        "path",
+        [
+            "test",
+            "/.",
+            "/.invalid",
+            "/..",
+            "/test/.invalid",
+        ],
     )
     def test_rejects_invalid_path(self, testapp, path):
         response = testapp.get("/api/v1/directory", {"path": path}, status=400)

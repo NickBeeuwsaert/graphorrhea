@@ -10,19 +10,35 @@ standard_line_break = "\n"
 normalize_line = f"{{}}{standard_line_break}".format
 
 
-@pytest.fixture(params=["\r\n", standard_line_break])
+@pytest.fixture(
+    params=[
+        "\r\n",
+        standard_line_break,
+    ]
+)
 def line_break(request):
     return request.param
 
 
-@pytest.fixture(params=[["Hello, world"], ["Hello, world!", "---"]])
+@pytest.fixture(
+    params=[
+        ["Hello, world"],
+        ["Hello, world!", "---"],
+    ]
+)
 def content(request, line_break):
     lines = request.param
 
     return line_break.join(lines)
 
 
-@pytest.mark.parametrize("separator", ["...", "---"])
+@pytest.mark.parametrize(
+    "separator",
+    [
+        "...",
+        "---",
+    ],
+)
 def test_should_load_frontmatter(content, separator, line_break):
     metadata = {"metadata": "Test", "value": True}
     frontmatter = yaml.dump(
@@ -54,7 +70,15 @@ def test_loading_from_file_should_work_with_weird_newlines():
     assert document.content == "".join(map(normalize_line, input_lines.splitlines()))
 
 
-@pytest.mark.parametrize("input_document", ["", "---", "---\n", "\n"])
+@pytest.mark.parametrize(
+    "input_document",
+    [
+        "",
+        "---",
+        "---\n",
+        "\n",
+    ],
+)
 def test_loads_empty_document(input_document):
     document = _frontmatter.load("")
 

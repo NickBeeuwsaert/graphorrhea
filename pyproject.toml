@@ -11,11 +11,11 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-acidfs = "^1.0"
 PyYAML = "^5.4.1"
 pyramid = "^2.0"
 waitress = "^1.4.4"
 pyramid-openapi3 = "^0.11"
+pygit2 = "^1.5.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
