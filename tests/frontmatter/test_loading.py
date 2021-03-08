@@ -22,7 +22,8 @@ def content(request, line_break):
     return line_break.join(lines)
 
 
-def test_should_load_frontmatter(content, line_break):
+@pytest.mark.parametrize("separator", ["...", "---"])
+def test_should_load_frontmatter(content, separator, line_break):
     metadata = {"metadata": "Test", "value": True}
     frontmatter = yaml.dump(
         metadata,
@@ -30,7 +31,7 @@ def test_should_load_frontmatter(content, line_break):
         line_break=line_break,
         explicit_start=True,
     )
-    document = f"{frontmatter}---{line_break}{content}"
+    document = f"{frontmatter}{separator}{line_break}{content}"
 
     document = _frontmatter.loads(document)
 

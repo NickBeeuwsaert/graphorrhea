@@ -3,7 +3,7 @@ servers:
   - url: /api/v1
 info:
   title: Notes API
-  version: '1'
+  version: "1"
 paths:
   /users:
     summary: List of users registered on the server.
@@ -16,7 +16,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: "#/components/schemas/User"
     post:
       summary: Create a new user
       requestBody:
@@ -47,58 +47,106 @@ paths:
                   - id
                 properties:
                   id:
-                    $ref: '#/components/schemas/UserId'
-  # /users/{id}:
-  #   get:
-  #     summary: Get information about a user
-  #     responses:
-  #       200:
-  #         description: User info
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/User'
-  # /me:
-  #   get:
-  #     summary: Get the currently active users information
-  #     responses:
-  #       200:
-  #         description: Current user info
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/User'
-  # /notes:
-  #   get:
-  #     summary: Show the notes on the server
-  #     parameters:
-  #       - in: query
-  #         name: path
-  #         required: true
-  #         schema: string
-  #     responses:
-  #       200:
-  #         description: List of notes on the server
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: array
-  #               items:
-  #                 type: string
+                    $ref: "#/components/schemas/UserId"
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Get information about a user
+      responses:
+        200:
+          description: User info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /me:
+    get:
+      summary: Get the currently active users information
+      responses:
+        200:
+          description: Current user info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /directory:
+    parameters: 
+      - in: query
+        name: path
+        required: true
+        description: Path to a directory
+        schema:
+          $ref: '#/components/schemas/Path'
+    get:
+      description: Access directory in notebook
+      responses:
+        200:
+          description: Folder listing
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - files
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DirectoryEntry'
+        400:
+          $ref: '#/components/responses/ValidationError'
+  /note:
+    parameters:
+      - in: query
+        name: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Path'
+    get:
+      summary: Fetch note on the sever
+      responses:
+        200:
+          description: Note metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteMetadata'
 
 components:
   schemas:
-    NotePath:
+    Filename:
       type: string
-      format: regex
-      pattern: '(/[a-zA-Z0-9_- ]+)+|/'
+      pattern: '^([a-zA-Z0-9-_ ][a-zA-Z0-9-_. ]*)?$'
+    Path:
+      type: string
+      description: An absolute path to a file or folder
+      pattern: '^/([a-zA-Z0-9\-_ ][a-zA-Z0-9\-_ .]*/)*([a-zA-Z0-9\-_ ][a-zA-Z0-9\-_ .]*)?$'
+    DirectoryEntry:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          $ref: '#/components/schemas/Filename'
+        type:
+          type: string
+          enum:
+            - file
+            - folder
     Timestamp:
       type: string
       format: date-time
     UserId:
       type: string
       format: uuid
-    Note:
+    NoteMetadata:
       type: object
       required:
         - owner_id
@@ -107,12 +155,12 @@ components:
         - uri
       properties:
         owner_id:
-          $ref: '#/components/schemas/UserId'
+          $ref: "#/components/schemas/UserId"
         created:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
           description: When the document was created
         modified:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
           description: When the document was last modified
         uri:
           type: string
@@ -130,4 +178,24 @@ components:
         username:
           type: string
         id:
-          $ref: '#/components/schemas/UserId'
+          $ref: "#/components/schemas/UserId"
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        exception:
+          type: string
+        message:
+          type: string
+        field:
+          type: string
+  responses:
+    ValidationError:
+      description: OpenAPI request/response validation failed
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Error"

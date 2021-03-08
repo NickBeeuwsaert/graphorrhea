@@ -12,3 +12,7 @@ def includeme(config):
 
     with config.route_prefix_context("/api/v1/"):
         config.add_route("openapi.users", "/users")
+        config.add_route("openapi.user", "/users/{id}")
+        config.add_route("openapi.me", "/me")
+        config.add_route("openapi.directory", "/directory")
+        config.add_route("openapi.note", "/note")

@@ -9,7 +9,6 @@ import yaml
 
 __all__ = ("loads", "load")
 
-_is_document_separator = functools.partial(operator.eq, "---")
 _read_lines: functools.partial[Iterator[str]] = functools.partial(
     map, operator.methodcaller("rstrip", "\r\n")
 )
@@ -17,7 +16,9 @@ _read_lines: functools.partial[Iterator[str]] = functools.partial(
 
 def _read_frontmatter(line_iter):
     for line in line_iter:
-        if _is_document_separator(line):
+        # Read lines until we hit a document start marker
+        # or a document end marker
+        if line in ("---", "..."):
             return
 
         yield line
@@ -81,7 +82,7 @@ def load(stream: IO[str]) -> Document:
     frontmatter = None
     first_line: Optional[str] = next(line_iter, "")
 
-    if _is_document_separator(first_line):
+    if first_line == "---":
         frontmatter = "\n".join(_read_frontmatter(line_iter))
     else:
         line_iter = _cons(first_line, line_iter)
