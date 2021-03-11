@@ -26,6 +26,7 @@ coverage/
 .coverage
 .coverage.*
 .pytest_cache/
+.testmondata
 
 # Sphinx documentation
 docs/_build/
