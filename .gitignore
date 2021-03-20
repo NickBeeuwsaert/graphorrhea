@@ -53,12 +53,7 @@ dmypy.json
 
 # yarn v2
 .yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
+.yarnrc.yml
 
 # For bare repos made during development
 # needs at least once character
