@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        dev: "1"
+    volumes:
+      - ".:/app"
+    ports:
+      - "6543:6543"
+  db:
+    image: "postgres:13.2"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+  elasticsearch:
+    image: "elasticsearch:7.11.1"
+    environment:
+      - "discovery.type=single-node"
+  redis:
+    image: "redis:6.2"

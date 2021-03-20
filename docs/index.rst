@@ -5,7 +5,7 @@ Welcome to graphorrhea's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   acidfs
+   graphorrhea/index
    frontmatter
 
 Indices and tables

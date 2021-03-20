@@ -9,8 +9,6 @@ FrontMatter
 
     .. autofunction:: load
 
-        Additional data about load
-
     .. autofunction:: loads
 
     Classes
