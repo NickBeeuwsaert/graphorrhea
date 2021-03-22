@@ -22,6 +22,9 @@ docutils = "^0.16"
 sqlalchemy = "^1.4.0"
 "zope.sqlalchemy" = "^1.3"
 passlib = "^1.7.4"
+plaster = "^1.0"
+toml = "^0.10.2"
+colander = "^1.8.3"
 
 [tool.poetry.dev-dependencies]
 # Testing
@@ -48,13 +51,21 @@ Sphinx = "^3.5.2"
 [tool.poetry.plugins."paste.app_factory"]
 "main" = "graphorrhea:main"
 
+
+[tool.poetry.plugins."plaster.loader_factory"]
+"file+toml" = "plaster_toml:Loader"
+
+[tool.poetry.plugins."plaster.wsgi_loader_factory"]
+"file+toml" = "plaster_toml:Loader"
+
 [tool.poetry.scripts]
 graphorrhea_create_user = "graphorrhea.scripts.create_user:main"
 
 [tool.isort]
 known_first_party = [
     "graphorrhea",
-    "frontmatter"
+    "frontmatter",
+    "plaster_toml"
 ]
 
 [build-system]
