@@ -1,5 +1,5 @@
 from graphorrhea.views import index
 
 
-def test_index(app_request):
-    assert index(app_request) == "Hello, world!"
+def test_index(frontend_request):
+    assert index(frontend_request) == "Hello, world!"

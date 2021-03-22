@@ -6,7 +6,7 @@ from pyramid.paster import get_appsettings
 from pyramid.scripting import prepare
 from pyramid.testing import DummyRequest, testConfig
 
-from graphorrhea import main
+from graphorrhea import api, frontend, main
 
 
 def pytest_addoption(parser):
@@ -14,25 +14,51 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="session")
-def app_settings(request):
-    return get_appsettings(
-        str(Path(request.config.option.app_settings or "testing.toml").resolve())
-    )
+def settings_file(request):
+    return str(Path(request.config.option.app_settings or "testing.toml").resolve())
 
 
 @pytest.fixture(scope="session")
-def app(app_settings):
-    return main({}, **app_settings)
+def frontend_settings(settings_file):
+    return get_appsettings(settings_file, "frontend")
+
+
+@pytest.fixture(scope="session")
+def api_settings(settings_file):
+    return get_appsettings(settings_file, "api")
+
+
+@pytest.fixture(scope="session")
+def frontend_app(frontend_settings):
+    return frontend({}, **frontend_settings)
+
+
+@pytest.fixture(scope="session")
+def api_app(api_settings):
+    return api({}, **api_settings)
 
 
 @pytest.fixture
-def testapp(app):
-    return webtest.TestApp(app)
+def frontend_test_app(frontend_app):
+    return webtest.TestApp(frontend_app)
 
 
 @pytest.fixture
-def app_request(app):
-    with prepare(registry=app.registry) as environment:
+def api_test_app(api_app):
+    return webtest.TestApp(api_app)
+
+
+@pytest.fixture
+def frontend_request(frontend_app):
+    with prepare(registry=frontend_app.registry) as environment:
+        request = environment["request"]
+
+        yield request
+
+
+@pytest.fixture
+def api_request(api_app):
+    with prepare(registry=api_app.registry) as environment:
         request = environment["request"]
 
         yield request
