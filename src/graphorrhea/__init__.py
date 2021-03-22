@@ -1,59 +1,55 @@
 from pyramid.config import Configurator
-from pyramid.exceptions import ConfigurationError
+from pyramid.decorator import reify
 
 __version__ = "0.1.0"
 
 
-def main(global_settings, **settings):
-    """
-    Create the primary WSGI app.
+class main:
+    def __init__(self, global_settings, **settings):
+        self.global_settings = global_settings
+        self.settings = settings
 
-    This app just routes requests to the frontend or API routes.
-    """
-    composite_routes = settings.get("composite_routes", None)
+    @property
+    def _config(self):
+        config = Configurator(
+            settings={
+                "tm.manager_hook": "pyramid_tm.explicit_manager",
+                **self.settings,
+            }
+        )
+        with config:
+            config.include("pyramid_tm")
+            config.include("pyramid_retry")
+            config.include(".models")
+        return config
 
-    if not composite_routes:
-        raise ConfigurationError("No composite routes in composite_routes")
+    @reify
+    def app(self):
+        """Handle frontend requests."""
+        config = self._config
+        with config:
+            config.include("pyramid_jinja2")
+            config.include(".routes")
 
-    def app(environ, start_response):
+            config.scan(".views")
+
+        return config.make_wsgi_app()
+
+    @reify
+    def api_app(self):
+        """Handle v1 API requests."""
+        config = self._config
+        with config:
+            config.include(".openapi")
+
+        return config.make_wsgi_app()
+
+    def __call__(self, environ, start_response):
+        """Route requests to the API or the frontend."""
         path_info = environ["PATH_INFO"]
+        app = self.app
 
-        for route in composite_routes:
-            if path_info.startswith(route["prefix"]):
-                return route["app"](environ, start_response)
+        if path_info.startswith("/api"):
+            app = self.api_app
 
-        # If there was no matched prefix, then just use the last route
-        return route["app"](environ, start_response)
-
-    return app
-
-
-def api(global_config, **settings):
-    """Create the WSGI app for the V1 API."""
-    settings.setdefault("tm.manager_hook", "pyramid_tm.explicit_manager")
-    config = Configurator(settings=settings)
-
-    with config:
-        config.include("pyramid_tm")
-        config.include("pyramid_retry")
-        config.include(".openapi")
-        config.include(".models")
-
-    return config.make_wsgi_app()
-
-
-def frontend(global_config, **settings):
-    """Create WSGI app for the frontend"""
-    settings.setdefault("tm.manager_hook", "pyramid_tm.explicit_manager")
-    config = Configurator(settings=settings)
-
-    with config:
-        config.include("pyramid_jinja2")
-        config.include("pyramid_tm")
-        config.include("pyramid_retry")
-        config.include(".routes")
-        config.include(".models")
-
-        config.scan(".views")
-
-    return config.make_wsgi_app()
+        return app(environ, start_response)

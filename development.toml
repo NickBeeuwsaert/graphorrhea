@@ -1,34 +1,10 @@
 [applications.main]
 use = "graphorrhea:main"
 
-composite_routes = [
-    {
-        "prefix" = "/api/v1",
-        "app" = {$ref = "api"}
-    },
-    {
-        "prefix" = "/",
-        "app" = {$ref = "frontend"}
-    },
-]
-
-[applications.frontend]
-use = "graphorrhea:frontend"
-
 "pyramid.reload_templates" = true
 "pyramid.includes" = [
     "pyramid_debugtoolbar"
 ]
-"pyramid.debug_authorization" = false
-"pyramid.debug_notfound" = false
-"pyramid.debug_routematch" = false
-"pyramid.default_locale_name" = "en"
-"acidfs.repository_path" = "%(here)s/database.git"
-"sqlalchemy.url" = "sqlite:///test.sqlite3"
-
-
-[applications.api]
-use = "graphorrhea:api"
 "pyramid.debug_authorization" = false
 "pyramid.debug_notfound" = false
 "pyramid.debug_routematch" = false
