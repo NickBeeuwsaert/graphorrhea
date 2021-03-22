@@ -1,0 +1,36 @@
+[applications.main]
+use = "graphorrhea:main"
+
+"pyramid.reload_templates" = false
+"pyramid.debug_authorization" = false
+"pyramid.debug_notfound" = false
+"pyramid.debug_routematch" = false
+"pyramid.default_locale_name" = "en"
+
+"acidfs.repository_path" = "%(here)s/database.git"
+"sqlalchemy.url" = "sqlite:///test.sqlite3"
+
+[servers.main]
+use = "waitress:serve"
+listen = "0.0.0.0:6543"
+
+[logging]
+version = 1
+
+[logging.root]
+level = "INFO"
+handlers = ["console"]
+
+[logging.logger.graphorrhea]
+level = "DEBUG"
+handlers = []
+qualname = "graphorrhea"
+
+[logging.handlers.console]
+class = "logging.StreamHandler"
+level = "NOTSET"
+formatter = "generic"
+stream = "ext://sys.stdout"
+
+[logging.formatters.generic]
+format = "%(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s"

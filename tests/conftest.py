@@ -16,7 +16,7 @@ def pytest_addoption(parser):
 @pytest.fixture(scope="session")
 def app_settings(request):
     return get_appsettings(
-        str(Path(request.config.option.app_settings or "testing.ini").resolve())
+        str(Path(request.config.option.app_settings or "testing.toml").resolve())
     )
 
 
