@@ -2,14 +2,13 @@
 use = "graphorrhea:main"
 
 "pyramid.reload_templates" = true
+"pyramid.includes" = [
+    "pyramid_debugtoolbar"
+]
 "pyramid.debug_authorization" = false
 "pyramid.debug_notfound" = false
 "pyramid.debug_routematch" = false
 "pyramid.default_locale_name" = "en"
-"pyramid.includes" = [
-    "pyramid_debugtoolbar"
-]
-
 "acidfs.repository_path" = "%(here)s/database.git"
 "sqlalchemy.url" = "sqlite:///test.sqlite3"
 

@@ -1,4 +1,3 @@
-from .expand_references import expand_references
 from .schemas import WSGIAppSchema, WSGIFilterSchema, WSGIServerSchema
 
 
@@ -29,9 +28,7 @@ class WSGIMixin:
         except KeyError:
             raise ValueError(f"App {name!r} not found!")
 
-        return expand_references(
-            schema.deserialize(app), applications=self.get_wsgi_app
-        )
+        return schema.deserialize(app)
 
     def get_wsgi_app(self, name=None, defaults=None):
         settings = self._get_app_definition(name)

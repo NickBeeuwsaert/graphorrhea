@@ -14,28 +14,23 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="session")
-def app_settings(request):
-    return get_appsettings(
-        str(Path(request.config.option.app_settings or "testing.toml").resolve())
-    )
+def settings_file(request):
+    return str(Path(request.config.option.app_settings or "testing.toml").resolve())
 
 
 @pytest.fixture(scope="session")
-def app(app_settings):
-    return main({}, **app_settings)
+def settings(settings_file):
+    return get_appsettings(settings_file)
+
+
+@pytest.fixture(scope="session")
+def app(settings):
+    return main({}, **settings)
 
 
 @pytest.fixture
 def testapp(app):
     return webtest.TestApp(app)
-
-
-@pytest.fixture
-def app_request(app):
-    with prepare(registry=app.registry) as environment:
-        request = environment["request"]
-
-        yield request
 
 
 @pytest.fixture
