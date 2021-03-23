@@ -19,7 +19,6 @@ def includeme(config):
     config.registry["dbsession_factory"] = session_factory
 
     def dbsession(request):
-        print("New session")
         dbsession = session_factory(info={"request": request})
         # For pshell
         dbsession.__doc__ = "Database session."
