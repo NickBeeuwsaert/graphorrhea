@@ -5,7 +5,9 @@ description = ""
 authors = ["Nick Beeuwsaert"]
 packages = [
     { include = "frontmatter", from = "src" },
-    { include = "graphorrhea", from = "src" }
+    { include = "graphorrhea", from = "src" },
+    { include = "plaster_toml", from = "src" },
+    { include = "pyramid_di", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -25,6 +27,7 @@ passlib = "^1.7.4"
 plaster = "^1.0"
 toml = "^0.10.2"
 colander = "^1.8.3"
+"zope.interface" = "^5.3.0"
 
 [tool.poetry.dev-dependencies]
 # Testing
