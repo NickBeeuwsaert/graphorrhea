@@ -1,8 +1,10 @@
 """Database models."""
+from pyramid.interfaces import IRequest
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
 from zope.sqlalchemy import register
 
+from ..interfaces import IDatabaseSession
 from .user import User
 
 __all__ = ("User",)
@@ -24,3 +26,4 @@ def includeme(config):
         return dbsession
 
     config.add_request_method(dbsession, reify=True)
+    config.registry.registerAdapter(dbsession, (IRequest,), IDatabaseSession)

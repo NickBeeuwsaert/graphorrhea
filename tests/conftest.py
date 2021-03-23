@@ -38,6 +38,7 @@ def dummy_request():
     return DummyRequest()
 
 
+@pytest.fixture
 def dummy_config(dummy_request):
-    with testConfig(request=dummy_request):
+    with testConfig(request=dummy_request) as config:
         yield config
