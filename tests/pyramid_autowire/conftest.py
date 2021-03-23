@@ -1,6 +1,5 @@
 import pytest
-
-from pyramid_di import ViewMapper
+from pyramid_autowire import ViewMapper
 
 
 @pytest.fixture
