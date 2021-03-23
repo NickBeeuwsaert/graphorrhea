@@ -7,7 +7,7 @@ packages = [
     { include = "frontmatter", from = "src" },
     { include = "graphorrhea", from = "src" },
     { include = "plaster_toml", from = "src" },
-    { include = "pyramid_di", from = "src" },
+    { include = "pyramid_autowire", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -50,10 +50,6 @@ alembic = "^1.5.7"
 
 # Documentation
 Sphinx = "^3.5.2"
-
-[tool.poetry.plugins."paste.app_factory"]
-"main" = "graphorrhea:main"
-
 
 [tool.poetry.plugins."plaster.loader_factory"]
 "file+toml" = "plaster_toml:Loader"
