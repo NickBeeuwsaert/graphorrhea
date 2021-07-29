@@ -12,6 +12,8 @@ use = "graphorrhea:main"
 "acidfs.repository_path" = "%(here)s/database.git"
 "sqlalchemy.url" = "sqlite:///test.sqlite3"
 
+"graphorrhea.data" = "%(here)s/data"
+
 [servers.main]
 use = "waitress:serve"
 listen = "0.0.0.0:6543"

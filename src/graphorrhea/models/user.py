@@ -16,3 +16,11 @@ class User:
             deprecated="auto",
         )
     )
+
+    @property
+    def notebooks(self):
+        settings = self.metadata.info["settings"]
+
+        print(settings["graphorrhea.data"])
+
+        return None

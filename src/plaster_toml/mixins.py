@@ -2,13 +2,6 @@ from .schemas import WSGIAppSchema, WSGIFilterSchema, WSGIServerSchema
 
 
 class WSGIMixin:
-    def _get_section(self, section):
-        config = self._config
-        try:
-            return config[section]
-        except KeyError:
-            raise ValueError(f"No {section!r} section!")
-
     def _maybe_get_name(self, name):
         if not name:
             name = self.uri.fragment
@@ -21,7 +14,7 @@ class WSGIMixin:
     def _get_app_definition(self, name):
         name = self._maybe_get_name(name)
         schema = WSGIAppSchema()
-        apps = self._get_section("applications")
+        apps = self.get_settings("applications")
 
         try:
             app = apps[name]
@@ -48,7 +41,7 @@ class WSGIMixin:
     def get_wsgi_filter(self, name=None, defaults=None):
         schema = WSGIFilterSchema()
         name = self._maybe_get_name(name)
-        filters = self._get_section("filters")
+        filters = self.get_settings("filters")
 
         try:
             filter_ = filters[name]
@@ -63,7 +56,7 @@ class WSGIMixin:
     def get_wsgi_server(self, name=None, defaults=None):
         schema = WSGIServerSchema()
         name = self._maybe_get_name(name)
-        servers = self._get_section("servers")
+        servers = self.get_settings("servers")
 
         try:
             server = servers[name]

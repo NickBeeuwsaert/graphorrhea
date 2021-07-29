@@ -12,6 +12,15 @@ use = "graphorrhea:main"
 "acidfs.repository_path" = "%(here)s/database.git"
 "sqlalchemy.url" = "sqlite:///test.sqlite3"
 
+
+"graphorrhea.data" = "{here}/data"
+
+[applications.frontend]
+use = "graphorrhea:frontend"
+
+[applications.api]
+use = "graphorrhea:api"
+
 [pshell]
 setup = "graphorrhea.pshell:setup"
 

@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from zope.sqlalchemy import register
 
 from ..interfaces import IDatabaseSession
+from ._meta import metadata
 from .user import User
 
 __all__ = ("User",)
@@ -12,6 +13,9 @@ __all__ = ("User",)
 
 def includeme(config):
     settings = config.get_settings()
+
+    # Allow the models to access settings
+    metadata.info["settings"] = settings
 
     engine = engine_from_config(settings, future=True)
 
