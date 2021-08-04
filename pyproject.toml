@@ -28,6 +28,7 @@ plaster = "^1.0"
 toml = "^0.10.2"
 colander = "^1.8.3"
 "zope.interface" = "^5.3.0"
+PyJWT = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 # Testing

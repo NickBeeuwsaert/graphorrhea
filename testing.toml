@@ -14,6 +14,8 @@ use = "graphorrhea:main"
 
 "graphorrhea.data" = "%(here)s/data"
 
+"jwt.private_key" = "test"
+
 [servers.main]
 use = "waitress:serve"
 listen = "0.0.0.0:6543"

@@ -11,9 +11,8 @@ use = "graphorrhea:main"
 "pyramid.default_locale_name" = "en"
 "acidfs.repository_path" = "%(here)s/database.git"
 "sqlalchemy.url" = "sqlite:///test.sqlite3"
-
-
 "graphorrhea.data" = "{here}/data"
+"jwt.private_key" = "what"
 
 [applications.frontend]
 use = "graphorrhea:frontend"

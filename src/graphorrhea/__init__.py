@@ -1,14 +1,15 @@
 from pyramid.config import Configurator
-from pyramid.decorator import reify
+
+from graphorrhea.security import SecurityPolicy, create_jwt, jwt_claims
 
 __version__ = "0.1.0"
 
 
 def frontend(global_settings, **settings):
-    settings = {
-        "tm.manager_hook": "pyramid_tm.explicit_manager",
-        **settings,
-    }
+    # settings = {
+    #     "tm.manager_hook": "pyramid_tm.explicit_manager",
+    #     **settings,
+    # }
     config = Configurator(settings=settings)
     with config:
         config.include("pyramid_jinja2")
@@ -23,12 +24,18 @@ def frontend(global_settings, **settings):
 
 
 def api(global_settings, **settings):
-    settings = {
-        "tm.manager_hook": "pyramid_tm.explicit_manager",
-        **settings,
-    }
-    config = Configurator(settings=settings)
+    # settings = {
+    #     "tm.manager_hook": "pyramid_tm.explicit_manager",
+    #     **settings,
+    # }
+    config = Configurator(
+        settings=settings,
+        security_policy=SecurityPolicy(settings.pop("jwt.private_key")),
+    )
+    config.add_request_method(jwt_claims, reify=True)
+    config.add_request_method(create_jwt)
     with config:
+        config.include("pyramid_jwt")
         config.include("pyramid_tm")
         config.include("pyramid_retry")
         config.include(".models")

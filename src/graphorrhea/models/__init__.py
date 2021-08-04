@@ -1,4 +1,5 @@
 """Database models."""
+from acidfs import AcidFS
 from pyramid.interfaces import IRequest
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
@@ -11,7 +12,7 @@ from .user import User
 __all__ = ("User",)
 
 
-def includeme(config):
+def setup_database(config):
     settings = config.get_settings()
 
     # Allow the models to access settings
@@ -31,3 +32,18 @@ def includeme(config):
 
     config.add_request_method(dbsession, reify=True)
     config.registry.registerAdapter(dbsession, (IRequest,), IDatabaseSession)
+
+
+def setup_acidfs(config):
+    settings = config.get_settings()
+    db = AcidFS(settings["acidfs.repository_path"])
+
+    def acidfs(request):
+        return db
+
+    config.add_request_method(acidfs, reify=True)
+
+
+def includeme(config):
+    setup_database(config)
+    setup_acidfs(config)

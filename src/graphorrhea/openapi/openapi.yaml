@@ -5,180 +5,149 @@ info:
   title: Notes API
   version: "1"
 paths:
-  /users:
-    summary: List of users registered on the server.
-    get:
-      responses:
-        200:
-          description: List of users
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
+  /auth/login:
+    summary: Get a access token and refresh token
     post:
-      summary: Create a new user
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              required:
-                - username
-                - name
-                - password
+              required: [username, password]
               properties:
                 username:
                   type: string
-                name:
-                  type: string
                 password:
                   type: string
-                  format: password
       responses:
         200:
-          description: Successfully created user
+          description: "A token pair to use to access the API"
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                properties:
-                  id:
-                    $ref: "#/components/schemas/UserId"
-  /users/{id}:
+                $ref: "#/components/schemas/TokenPair"
+  /auth/renew:
+    summary: |
+      Take a valid refresh token, and return a new token pair
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refresh_token]
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        200:
+          description: "A new token pair."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenPair"
+  /notebook:
+    summary: Get a notebook's contents
     parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-          format: uuid
-    get:
-      summary: Get information about a user
-      responses:
-        200:
-          description: User info
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-  /me:
-    get:
-      summary: Get the currently active users information
-      responses:
-        200:
-          description: Current user info
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-  /directory:
-    parameters: 
       - in: query
         name: path
-        required: true
-        description: Path to a directory
+        examples:
+          rootPath:
+            value: "/"
+            summary: "Root notebook"
+          nestedPath:
+            value: "/notebook"
+            summary: "Notebook in root"
         schema:
-          $ref: '#/components/schemas/Path'
+          $ref: "#/components/schemas/NotebookPath"
     get:
-      description: Access directory in notebook
       responses:
         200:
-          description: Folder listing
+          description: List of notebook contents
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - files
-                properties:
-                  files:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/DirectoryEntry'
-        400:
-          $ref: '#/components/responses/ValidationError'
+                type: array
+                items:
+                  $ref: "#/components/schemas/NotebookItem"
+              example:
+                - type: "notebook"
+                  name: "my_notebook"
+                - type: "note"
+                  name: "some_note"
   /note:
+    summary: get a note
     parameters:
       - in: query
         name: path
-        required: true
+        examples:
+          rootNote:
+            value: "/root.rst"
+          subnotebookNote:
+            value: "/someNotebook/note.rst"
         schema:
-          $ref: '#/components/schemas/Path'
+          $ref: "#/components/schemas/NotebookPath"
     get:
-      summary: Fetch note on the sever
       responses:
         200:
-          description: Note metadata
+          description: The requested note
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NoteMetadata'
+                $ref: "#/components/schemas/Note"
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: ["content"]
+              properties:
+                content:
+                  type: string
+      responses:
+        200:
+          description: Create or update a note
+          content:
+            application/json:
+              schema:
+                type: object
 
 components:
   schemas:
-    Filename:
-      type: string
-      pattern: '^([a-zA-Z0-9-_ ][a-zA-Z0-9-_. ]*)?$'
-    Path:
-      type: string
-      description: An absolute path to a file or folder
-      pattern: '^/([a-zA-Z0-9\-_ ][a-zA-Z0-9\-_ .]*/)*([a-zA-Z0-9\-_ ][a-zA-Z0-9\-_ .]*)?$'
-    DirectoryEntry:
+    TokenPair:
       type: object
-      required:
-        - name
-        - type
+      required: [access_token, refresh_token]
       properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+    NotebookItem:
+      type: object
+      required: [type, name]
+      properties:
+        type:
+          type: string
+          enum: ["notebook", "note"]
         name:
-          $ref: '#/components/schemas/Filename'
+          type: string
+    NotebookPath:
+      type: string
+      pattern: '^\/([a-z0-9 ]+\/?)*$'
+    Note:
+      type: object
+      required: [content, type, owner]
+      properties:
+        owner:
+          type: string
         type:
           type: string
           enum:
-            - file
-            - folder
-    Timestamp:
-      type: string
-      format: date-time
-    UserId:
-      type: string
-      format: uuid
-    NoteMetadata:
-      type: object
-      required:
-        - owner_id
-        - created
-        - modified
-        - uri
-      properties:
-        owner_id:
-          $ref: "#/components/schemas/UserId"
-        created:
-          $ref: "#/components/schemas/Timestamp"
-          description: When the document was created
-        modified:
-          $ref: "#/components/schemas/Timestamp"
-          description: When the document was last modified
-        uri:
+            - text/x-rst
+            - text/markdown
+        content:
           type: string
-          description: Location of the document content.
-          format: uri-reference
-    User:
-      type: object
-      required:
-        - username
-        - name
-        - id
-      properties:
-        name:
-          type: string
-        username:
-          type: string
-        id:
-          $ref: "#/components/schemas/UserId"
     Error:
       type: object
       required:
