@@ -121,3 +121,11 @@ def jwt_exception_view(request):
     exception = request.exception
     (message,) = exception.args
     return {"message": message, "exception": type(exception).__name__}
+
+
+def includeme(config):
+    settings = config.registry.settings
+    config.set_security_policy(SecurityPolicy(settings.pop("jwt.private_key")))
+
+    config.add_request_method(jwt_claims, reify=True)
+    config.add_request_method(create_jwt)

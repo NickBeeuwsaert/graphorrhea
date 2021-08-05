@@ -77,17 +77,17 @@ paths:
                   name: "some_note"
   /note:
     summary: get a note
-    parameters:
-      - in: query
-        name: path
-        examples:
-          rootNote:
-            value: "/root.rst"
-          subnotebookNote:
-            value: "/someNotebook/note.rst"
-        schema:
-          $ref: "#/components/schemas/NotebookPath"
     get:
+      parameters:
+        - in: query
+          name: path
+          examples:
+            rootNote:
+              value: "/"
+            subnotebookNote:
+              value: "/someNotebook"
+          schema:
+            $ref: "#/components/schemas/NotePath"
       responses:
         200:
           description: The requested note
@@ -96,6 +96,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Note"
     post:
+      parameters:
+        - in: query
+          name: path
+          examples:
+            note:
+              value: "/someNote"
+          schema:
+            $ref: "#/components/schemas/NotebookPath"
       requestBody:
         content:
           application/json:
@@ -133,8 +141,22 @@ components:
         name:
           type: string
     NotebookPath:
+      oneOf:
+        - type: string
+          pattern: "^(/[a-z]+)+$"
+        - type: string
+          pattern: "^/$"
+    NotePath:
       type: string
-      pattern: '^\/([a-z0-9 ]+\/?)*$'
+      pattern: "^(/[a-z]+)+$"
+    # oneOf:
+    # - type: string
+    #   pattern: "^(/[a-z0-9]+)+$"
+    # - type: string
+    #   pattern: "^/$"
+    # Filename:
+    #   type: string
+    #   pattern: "^[a-z0-9]+.[a-z]+$"
     Note:
       type: object
       required: [content, type, owner]

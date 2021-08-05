@@ -4,10 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Nick Beeuwsaert"]
 packages = [
-    { include = "frontmatter", from = "src" },
-    { include = "graphorrhea", from = "src" },
-    { include = "plaster_toml", from = "src" },
-    { include = "pyramid_autowire", from = "src" },
+    { include = "frontmatter", from = "lib" },
+    { include = "graphorrhea", from = "lib" },
+    { include = "plaster_toml", from = "lib" },
 ]
 
 [tool.poetry.dependencies]
