@@ -43,6 +43,7 @@ Roadmap
 * Remove Snowpack dependency, and try to use plain ESM imports because I am insane.
 * Iron out OpenAPI document
 * Add unicorns
+* Swap AcidFS out for a custom git wrapper. AcidFS is nice, but it is subcommand based. It would be better to have an abstraction based on pygit2, that integrates better with pyramids traversal.
 
 
 
