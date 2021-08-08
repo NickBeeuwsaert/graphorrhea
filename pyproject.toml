@@ -4,9 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Nick Beeuwsaert"]
 packages = [
-    { include = "frontmatter", from = "lib" },
-    { include = "graphorrhea", from = "lib" },
-    { include = "plaster_toml", from = "lib" },
+    { include = "frontmatter", from = "src" },
+    { include = "graphorrhea", from = "src" },
+    { include = "plaster_toml", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -14,7 +14,7 @@ python = "^3.9"
 PyYAML = "^5.4.1"
 pyramid = "^2.0"
 pyramid-jinja2 = "^2.8"
-pyramid-openapi3 = "^0.11"
+pyramid-openapi3 = "^0.13"
 pyramid-retry = "^2.1.1"
 pyramid-tm = "^2.4"
 waitress = "^1.4.4"

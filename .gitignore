@@ -57,3 +57,5 @@ dmypy.json
 # For bare repos made during development
 # needs at least once character
 ?*.git
+
+deno-cache/

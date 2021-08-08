@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build"
+  },
+  "devDependencies": {
+    "snowpack": "^3.8.3"
+  },
+  "dependencies": {
+    "history": "^5.0.0",
+    "htm": "^3.1.0",
+    "preact": "^10.5.14",
+    "preact-router": "^3.2.1",
+    "unistore": "^3.5.2"
+  }
+}

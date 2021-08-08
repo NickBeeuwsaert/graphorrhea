@@ -179,14 +179,6 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 toml = ["toml"]
 
 [[package]]
-name = "dictpath"
-version = "0.1.3"
-description = "Object-oriented dictionary paths"
-category = "main"
-optional = false
-python-versions = ">= 2.7, != 3.0.*, != 3.1.*, != 3.2.*, != 3.3.*, != 3.4.*"
-
-[[package]]
 name = "docutils"
 version = "0.16"
 description = "Docutils -- Python Documentation Utilities"
@@ -369,7 +361,7 @@ python-versions = "*"
 
 [[package]]
 name = "openapi-core"
-version = "0.14.2"
+version = "0.13.8"
 description = "client-side and server-side support for the OpenAPI Specification v3"
 category = "main"
 optional = false
@@ -377,7 +369,6 @@ python-versions = ">= 2.7, != 3.0.*, != 3.1.*, != 3.2.*, != 3.3.*, != 3.4.*"
 
 [package.dependencies]
 attrs = "*"
-dictpath = "*"
 isodate = "*"
 lazy-object-proxy = "*"
 more-itertools = "*"
@@ -660,16 +651,16 @@ testing = ["WebTest (>=1.3.1)", "nose", "coverage"]
 
 [[package]]
 name = "pyramid-openapi3"
-version = "0.11"
+version = "0.13"
 description = "Pyramid addon for OpenAPI3 validation"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-openapi-core = ">=0.13.1"
+openapi-core = ">=0.13.4,<0.14"
 openapi-spec-validator = "*"
-pyramid = "*"
+pyramid = ">=1.10.7"
 
 [[package]]
 name = "pyramid-retry"
@@ -1172,7 +1163,7 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "87a7722b8262029d7ec86da1055aece82c1a3d1c2ddce31ceed60b05af3c2d80"
+content-hash = "73fb2e71a7bc8c51199e5a68715510a144360f11fb601131cf524753ed0d2a2f"
 
 [metadata.files]
 acidfs = [
@@ -1283,11 +1274,6 @@ coverage = [
     {file = "coverage-5.5-pp36-none-any.whl", hash = "sha256:f030f8873312a16414c0d8e1a1ddff2d3235655a2174e3648b4fa66b3f2f1079"},
     {file = "coverage-5.5-pp37-none-any.whl", hash = "sha256:2a3859cb82dcbda1cfd3e6f71c27081d18aa251d20a17d87d26d4cd216fb0af4"},
     {file = "coverage-5.5.tar.gz", hash = "sha256:ebe78fe9a0e874362175b02371bdfbee64d8edc42a044253ddf4ee7d3c15212c"},
-]
-dictpath = [
-    {file = "dictpath-0.1.3-py2-none-any.whl", hash = "sha256:225248e3c1e7c375495d5da5c390cbf3490f56ee42c151df733e5b2df6b521b5"},
-    {file = "dictpath-0.1.3-py3-none-any.whl", hash = "sha256:d5212361d1fb93909cff715f6e0404e17752cf7a48df3e140639e529a027c437"},
-    {file = "dictpath-0.1.3.tar.gz", hash = "sha256:751cde3b76b176d25f961b90c423a11a4d5ede9bd09ab0d64a85abb738c190d8"},
 ]
 docutils = [
     {file = "docutils-0.16-py2.py3-none-any.whl", hash = "sha256:0c5b78adfbf7762415433f5515cd5c9e762339e23369dbe8000d84a4bf4ab3af"},
@@ -1477,9 +1463,9 @@ mypy-extensions = [
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
 ]
 openapi-core = [
-    {file = "openapi-core-0.14.2.tar.gz", hash = "sha256:62ad93c8114ce6025f25b004ff0f3674eea8bc4ae920c726e98921fdbe41b4f3"},
-    {file = "openapi_core-0.14.2-py2-none-any.whl", hash = "sha256:3426b5ae551a04f7d7a3a625ca600bff157affb4eb691d36412997f6a9ac6898"},
-    {file = "openapi_core-0.14.2-py3-none-any.whl", hash = "sha256:05e100cfb25b4c68d2f647b3f204da26630d79df02d5e0aacae2bcc1915a2796"},
+    {file = "openapi-core-0.13.8.tar.gz", hash = "sha256:8dcd1ce197e6d534c4cb798c8c916758c751006506990ca3f9f42c7abb3514ed"},
+    {file = "openapi_core-0.13.8-py2-none-any.whl", hash = "sha256:1662fef13e90a924570c32685426ba96845bbd7a0ff10ead4b2a675e81d131c5"},
+    {file = "openapi_core-0.13.8-py3-none-any.whl", hash = "sha256:f8c81551d72b377cb08e46795580f75b819d5c33b36ece054329e5efa644c0d7"},
 ]
 openapi-schema-validator = [
     {file = "openapi-schema-validator-0.1.5.tar.gz", hash = "sha256:a4b2712020284cee880b4c55faa513fbc2f8f07f365deda6098f8ab943c9f0df"},
@@ -1567,8 +1553,8 @@ pyramid-mako = [
     {file = "pyramid_mako-1.1.0.tar.gz", hash = "sha256:0066c863441f1c3ddea60cee1ccc50d00a91a317a8052ca44131da1a12a840e2"},
 ]
 pyramid-openapi3 = [
-    {file = "pyramid_openapi3-0.11-py2.py3-none-any.whl", hash = "sha256:47b8259e04c6565076a1bb9fa2df2f543c1d54e24e3b7b2b83003e459c3249a4"},
-    {file = "pyramid_openapi3-0.11.tar.gz", hash = "sha256:5b1c36e142188bbd73ae0aa4ee8ba91f2d2d327e1d8845a8bd494ffef00e6080"},
+    {file = "pyramid_openapi3-0.13-py2.py3-none-any.whl", hash = "sha256:4bf6f29cdc49d625fabc61e0de98b8d399a5f24ffc74a7da464325898bb053a8"},
+    {file = "pyramid_openapi3-0.13.tar.gz", hash = "sha256:43c4c96a37533edc546eb00ecf990b176b1d931982188b1139a360824a0f4b40"},
 ]
 pyramid-retry = [
     {file = "pyramid_retry-2.1.1-py2.py3-none-any.whl", hash = "sha256:b5129a60eb9d7409234ea52839006426d2ae887b4a1f0530c75ec336cabf2476"},

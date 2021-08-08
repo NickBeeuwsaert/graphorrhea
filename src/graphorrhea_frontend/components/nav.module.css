@@ -1,0 +1,33 @@
+.nav {
+  display: flex;
+  background: hsl(0, 0%, 67%);
+}
+.nav > h1 {
+  margin: 0;
+  padding: 0;
+  line-height: 2;
+}
+
+.nav-menu {
+  list-style-type: none;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+}
+
+.nav-menu > li {
+  display: inline-block;
+}
+
+.nav-menu > li > a {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  padding: 1em;
+  transition: background-color 100ms linear;
+}
+
+.nav-menu > li > a:hover {
+  background: hsla(40deg, 0%, 25%, 0.5);
+}

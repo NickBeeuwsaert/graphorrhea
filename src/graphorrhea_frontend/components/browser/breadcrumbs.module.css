@@ -1,0 +1,16 @@
+.breadcrumbs {
+  list-style-type: "/";
+}
+
+.breadcrumbs li {
+  display: inline list-item;
+}
+
+.breadcrumbs li:first-child {
+  list-style-type: none;
+}
+.breadcrumbs li:first-child button {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+}

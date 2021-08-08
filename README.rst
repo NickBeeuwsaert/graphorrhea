@@ -1,63 +1,52 @@
 ===========
 Graphorrhea
 ===========
-A note taking app.
+A note taking app, using git as a database, so you can own your notes with you anywhere.
 
 Prerequisites
 -------------
 
-Poetry_ is used for package management and venv management.
+Poetry_ is used for package management and venv management on the backend, while NPM_/Snowpack_ is used on the frontend.
 
 These are some optional dependencies:
 
 pyenv_
     For python version management
 
-Docker_ & docker-compose_ or Podman_ & podman-compose_
-    For running the application in a container
-
 Quickstart
 ----------
+To create the user database (users are not stored in git)::
 
-If you are on a platform that supports Docker_/Podman_, you should be able to just do the following:
-
-.. code-block:: sh
-
-    # Install the application locally (for migrations)
-    poetry install
-    # Start postgres, elasticsearch, redis and graphorrhea
-    docker-compose up
-
-    # (separate terminal)
     poetry run alembic upgrade head
 
-Manual Setup
-------------
+Then, to run the API server::
 
-Set up the following services:
+    poetry run pserve development.toml
 
-* ElasticSearch_
-* Redis_
-* Postgres_ (Or just use SQLite)
+And to run the frontend::
 
-Configure development.ini to point to the above services.
+    # (In a separate terminal)
+    npm i
+    npm run start
 
-.. code-block:: sh
+Snowpack_ will open up a new browser window, if it doesn't point your browser at ``http://127.0.0.1:8080``.
 
-    poetry run pserve --reload development.ini
+Then go hog-wild.
 
-Unit Testing
-------------
-.. code-block:: sh
 
-    poetry run pytest
+Roadmap
+-------
+
+* UI has yet to reach it's final form. Right now its mostly just placeholder.
+* Rip and tear the CSS modules stuff into BEM.
+* Adding more unit tests, they fell by the wayside during development while I stabilized the API.
+* Remove Snowpack dependency, and try to use plain ESM imports because I am insane.
+* Iron out OpenAPI document
+* Add unicorns
+
+
 
 .. _Poetry: https://python-poetry.org/
 .. _pyenv: https://github.com/pyenv/pyenv
-.. _Docker: https://www.docker.com/get-started
-.. _docker-compose: https://docs.docker.com/compose/install/
-.. _Podman: https://podman.io/getting-started/installation
-.. _podman-compose: https://github.com/containers/podman-compose
-.. _Postgres: https://www.postgresql.org/download/
-.. _Redis: https://redis.io/
-.. _ElasticSearch: https://www.elastic.co/start
+.. _NPM: https://www.npmjs.com/
+.. _Snowpack: https://www.snowpack.dev/

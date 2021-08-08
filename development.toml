@@ -3,22 +3,23 @@ use = "graphorrhea:main"
 
 "pyramid.reload_templates" = true
 "pyramid.includes" = [
-    "pyramid_debugtoolbar"
+    # "pyramid_debugtoolbar"
 ]
 "pyramid.debug_authorization" = false
 "pyramid.debug_notfound" = false
 "pyramid.debug_routematch" = false
+"debugtoolbar.intercept_exc" = false
 "pyramid.default_locale_name" = "en"
-"acidfs.repository_path" = "%(here)s/database.git"
+"acidfs.repository_path" = "{here}/database.git"
 "sqlalchemy.url" = "sqlite:///test.sqlite3"
 "graphorrhea.data" = "{here}/data"
 "jwt.private_key" = "what"
 
-[applications.frontend]
-use = "graphorrhea:frontend"
-
-[applications.api]
-use = "graphorrhea:api"
+"cors.origins" = ["http://127.0.0.1:6543"]
+# 24 hours
+"cors.max_age" = "86400"
+"cors.methods" = ["POST", "PUT", "PATCH", "DELETE", "GET"]
+"cors.headers" = ["Content-Type", "Authorization"]
 
 [pshell]
 setup = "graphorrhea.pshell:setup"
