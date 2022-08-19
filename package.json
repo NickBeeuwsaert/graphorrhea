@@ -1,10 +1,10 @@
 {
   "scripts": {
-    "start": "snowpack dev",
+    "start": "esbuild src/graphorrhea_frontend/main.js --servedir=public --outdir=public/js --bundle",
     "build": "snowpack build"
   },
   "devDependencies": {
-    "snowpack": "^3.8.3"
+    "esbuild": "^0.15.5"
   },
   "dependencies": {
     "history": "^5.0.0",

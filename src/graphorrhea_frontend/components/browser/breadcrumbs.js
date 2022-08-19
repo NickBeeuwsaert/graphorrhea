@@ -1,7 +1,6 @@
 import { html } from "htm/preact";
 import { h } from "preact";
 import * as paths from "../../path.js";
-import styles from "./breadcrumbs.module.css";
 
 const HOME = String.fromCodePoint(0x1f3e0);
 
@@ -30,7 +29,7 @@ function BreadcrumbItem({ component, onClick }) {
 export default function Breadcrumbs({ path, onChangePath }) {
   const pathSegments = paths.parts(path);
   return html`
-    <ul className=${styles.breadcrumbs}>
+    <ul className="breadcrumbs">
       <li>
         <${BreadcrumbItem}
           onClick=${() => onChangePath("")}

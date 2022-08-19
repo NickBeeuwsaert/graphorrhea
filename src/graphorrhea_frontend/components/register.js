@@ -4,7 +4,6 @@ import { route } from "preact-router";
 import useStore from "../hooks/useStore.js";
 import useAPI from "../hooks/useAPI.js";
 import { APIError } from "../graphorrhea.js";
-import styles from "./form.module.css";
 
 const ACTIONS = {};
 
@@ -37,9 +36,9 @@ export default function Login() {
     <form
       method="POST"
       onSubmit=${handleSubmit}
-      className=${styles["form-container"]}
+      className="form-container"
     >
-      <div className=${styles["form-group"]}>
+      <div className="form-group">
         <label for="username">Username:</label>
         <input
           type="text"
@@ -49,7 +48,7 @@ export default function Login() {
           onInput=${({ target }) => setUsername(target.value)}
         />
       </div>
-      <div className=${styles["form-group"]}>
+      <div className="form-group">
         <label for="password">Password:</label>
         <input
           type="password"
@@ -59,8 +58,8 @@ export default function Login() {
           onInput=${({ target }) => setPassword(target.value)}
         />
       </div>
-      <div class=${styles["form-buttons"]}>
-        <button className=${`${styles["form-button"]} ${styles["primary"]}`}>
+      <div class="form-buttons">
+        <button className="form-button primary">
           Register
         </button>
       </div>

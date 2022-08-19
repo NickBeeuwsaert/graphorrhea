@@ -3,7 +3,6 @@ import { useEffect, useState } from "preact/hooks";
 import { route, Link } from "preact-router";
 import useAPI from "../hooks/useAPI.js";
 import * as paths from "../path.js";
-import styles from "./editor.module.css";
 import { AuthenticationError } from "../graphorrhea.js";
 
 /**
@@ -71,7 +70,7 @@ export default function Editor({ matches = {} }) {
     </div>
     <textarea
       onInput=${({ target }) => setContent(target.value)}
-      className=${styles.editor}
+      className="editor"
     >
 ${content}</textarea
     >

@@ -1,6 +1,5 @@
 import { html } from "htm/preact";
 import { Link } from "preact-router";
-import styles from "./nav.module.css";
 import useStore from "../hooks/useStore.js";
 
 const ACTIONS = {
@@ -13,10 +12,10 @@ export default function Nav() {
   const [accessToken, actions] = useStore("accessToken", ACTIONS);
 
   return html`
-    <nav className=${styles.nav}>
+    <nav className="nav">
       <h1>Graphorrhea</h1>
 
-      <ul className=${styles["nav-menu"]}>
+      <ul className="nav-menu">
         ${accessToken && html`<li><${Link} href="/">Home</${Link}></li>`}
         ${accessToken &&
         html`<li><${Link} onClick=${actions.logout} href="/">Logout</${Link}></li>`}
